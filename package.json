@@ -1,0 +1,23 @@
+{
+    "name": "the-niles-foundation",
+    "private": true,
+    "workspaces": [
+        "apps/*",
+        "package/*"
+    ],
+    "scripts": {
+        "db:start": "supabase start",
+        "db:stop": "supabase stop",
+        "db:reset": "supabase db reset",
+        "gen:types": "supabase gen types typescript --local > packages/db-types/database.types.ts",
+        "mobile": "npm run start -w apps/mobile",
+        "dashboard": "npm run dev -w apps/dashboard"
+    },
+    "overrides": {
+        "react": "19.3.0",
+        "react-dom": "19.3.0"
+    },
+    "devDependencies": {
+        "supabase": "^2.122.0"
+    }
+}
