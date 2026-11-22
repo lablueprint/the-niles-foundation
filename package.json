@@ -15,8 +15,8 @@
         "db:migrate": "supabase migration up",
         "db:studio": "echo 'Supabase Studio: http://localhost:54323' && (open http://localhost:54323 2>/dev/null || echo 'Please open the URL above in your browser')",
         "gen:types": "supabase gen types typescript --local > packages/db-types/database.types.ts",
-        "mobile": "npm run start -w apps/mobile",
-        "dashboard": "npm run dev -w apps/dashboard"
+        "mobile": "npm run start -w apps/evclean15",
+        "dashboard": "npm run dev -w apps/admin-dashboard"
     },
     "overrides": {
         "react": "19.3.0",
