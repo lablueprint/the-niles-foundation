@@ -38,20 +38,20 @@ create type income_range as enum (
 -- ============================================
 -- TABLES
 -- ============================================
-create table person (
-    id not null uuid primary key references auth.users,
-    role not null user_role DEFAULT rider,
-    first_name not null text check (char_length(trim(first_name)) between 1 and 50),
+create table public.profiles (
+    id  uuid primary key references auth.users (id) on delete cascade not null,
+    role public.user_role default 'rider' not null,
+    first_name text check (char_length(trim(first_name)) between 1 and 50) not null,
     last_name text check (char_length(last_name) <= 50),
-    full_name not null text GENERATED ALWAYS AS trim(first_name || ' ' || coalesce(last_name, '')) STORED
-    display_name text NOT NULL check (TRIM(display_name)  ),
-    email not null text,
+    full_name text generated always as (trim(first_name || ' ' || coalesce(last_name, ''))) stored not null,
+    display_name text check (char_length(trim(display_name)) between 1 and 30),
+    email text not null,
     phone text check (phone ~ '^\+[1-9][0-9]{1,14}$'),
-    age_range not null age_range,
-    income_range not null income_range,
-    notify_announcements not null boolean,
-    created_at not null timestamptz,
-    updated_at not null timestamptz
+    age_range public.age_range not null,
+    income_range public.income_range not null,
+    notify_announcements boolean default true not null,
+    created_at timestamptz default now() not null,
+    updated_at timestamptz default now() not null
 );
 
 -- ============================================
