@@ -6,10 +6,53 @@ create schema if not exists private;
 -- ============================================
 -- ENUMS
 -- ============================================
+create type user_role as enum (
+    'rider',
+    'driver',
+    'admin'
+);
+
+create type age_range as enum (
+    'under_18', 
+    '18_24', 
+    '25_34', 
+    '35_44', 
+    '45_54',
+    '55_64',
+    '65_plus', 
+    'prefer_not_to_say'
+);
+
+create type income_range as enum (
+    'under_15000', 
+    '15000_24999', 
+    '25000_34999', 
+    '35000_49999', 
+    '50000_74999', 
+    '75000_99999', 
+    '100000_plus', 
+    'prefer_not_to_say'
+);
+
 
 -- ============================================
 -- TABLES
 -- ============================================
+create table person (
+    id not null uuid primary key references auth.users,
+    role not null user_role DEFAULT rider,
+    first_name not null text check (char_length(trim(first_name)) between 1 and 50),
+    last_name text check (char_length(last_name) <= 50),
+    full_name not null text GENERATED ALWAYS AS trim(first_name || ' ' || coalesce(last_name, '')) STORED
+    display_name text NOT NULL check (TRIM(display_name)  ),
+    email not null text,
+    phone text check (phone ~ '^\+[1-9][0-9]{1,14}$'),
+    age_range not null age_range,
+    income_range not null income_range,
+    notify_announcements not null boolean,
+    created_at not null timestamptz,
+    updated_at not null timestamptz
+);
 
 -- ============================================
 -- GRANTS
